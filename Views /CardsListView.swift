@@ -25,18 +25,25 @@ struct CardsListView: View {
       }
   }
     //scroll list 
-  var list: some View {
-    ScrollView(showsIndicators: false) {
-      VStack {
-        ForEach(store.cards) { card in
-          CardThumbnail(card: card)
-            .onTapGesture {
-              selectedCard = card
-            }
+    var list: some View {
+      ScrollView(showsIndicators: false) {
+        VStack {
+          ForEach(store.cards) { card in
+            CardThumbnail(card: card)
+              .contextMenu {
+                Button(role: .destructive) {
+                  store.remove(card)
+                } label: {
+                  Label("Delete", systemImage: "trash")
+                }
+              }
+              .onTapGesture {
+                selectedCard = card
+              }
+          }
         }
       }
     }
-  }
 }
 
 struct CardsListView_Previews: PreviewProvider {

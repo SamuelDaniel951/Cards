@@ -22,6 +22,7 @@ extension CardElement {
 struct ImageElement: CardElement {
   let id = UUID()
   var transform = Transform()
+  var frameIndex: Int?
   var uiImage: UIImage?
 
   var image: Image {

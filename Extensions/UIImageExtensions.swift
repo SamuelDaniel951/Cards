@@ -2,17 +2,19 @@
 //  UIImageExtensions.swift
 //  Cards
 //
-//  Created by Madiha Ibrahim on 10/6/25.
+//  Created by owner on 10/6/25.
 //
 
 import SwiftUI
 
-struct UIImageExtensions: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+extension UIImage: Transferable {
+  public static var transferRepresentation: some TransferRepresentation {
+    DataRepresentation(importedContentType: .image) { image in
+      UIImage(data: image) ?? errorImage
     }
-}
+  }
 
-#Preview {
-    UIImageExtensions()
+  public static var errorImage: UIImage {
+    UIImage(named: "error-image") ?? UIImage()
+  }
 }

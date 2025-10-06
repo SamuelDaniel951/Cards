@@ -2,17 +2,25 @@
 //  CustomTransfer.swift
 //  Cards
 //
-//  Created by Madiha Ibrahim on 10/6/25.
+//  Created by owner on 10/6/25.
 //
 
 import SwiftUI
 
-struct CustomTransfer: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
 
-#Preview {
-    CustomTransfer()
+struct CustomTransfer: Transferable {
+  var image: UIImage?
+  var text: String?
+
+  public static var transferRepresentation: some TransferRepresentation {
+    DataRepresentation(importedContentType: .image) { data in
+      let image = UIImage(data: data)
+        ?? UIImage(named: "error-image")
+      return CustomTransfer(image: image)
+    }
+    DataRepresentation(importedContentType: .text) { data in
+      let text = String(decoding: data, as: UTF8.self)
+      return CustomTransfer(text: text)
+    }
+  }
 }
