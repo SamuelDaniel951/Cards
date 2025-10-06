@@ -2,16 +2,19 @@
 //  CardsApp.swift
 //  Cards
 //
-//  Created by Madiha Ibrahim on 10/5/25.
+//  Created by owner on 10/5/25.
 //
 
 import SwiftUI
 
 @main
 struct CardsApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
+  @StateObject var store = CardStore(defaultData: true)
+
+  var body: some Scene {
+    WindowGroup {
+      CardsListView()
+        .environmentObject(store)
     }
+  }
 }

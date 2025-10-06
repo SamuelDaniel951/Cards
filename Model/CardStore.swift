@@ -1,0 +1,24 @@
+//
+//  CardStore.swift
+//  Cards
+//
+//  Created by owner on 10/5/25.
+//
+
+import SwiftUI
+//data source for cards
+class CardStore: ObservableObject {
+    //store and update cards data
+  @Published var cards: [Card] = []
+
+  init(defaultData: Bool = false) {
+    if defaultData {
+      cards = initialCards
+    }
+  }
+
+  func index(for card: Card) -> Int? {
+    cards.firstIndex { $0.id == card.id }
+  }
+}
+

@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  Cards
 //
-//  Created by Madiha Ibrahim on 10/5/25.
+//  Created by owner on 10/5/25.
 //
 
 import SwiftUI
@@ -19,6 +19,8 @@ struct ContentView: View {
     }
 }
 
-#Preview {
+struct ContentView_Previews: PreviewProvider {
+  static var previews: some View {
     ContentView()
+  }
 }
