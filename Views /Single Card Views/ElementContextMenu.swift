@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ElementContextMenu: ViewModifier {
-  @Binding var card: Card
-  @Binding var element: CardElement
+  @Binding var card: Card //bind to working card
+  @Binding var element: CardElement 
 
   func body(content: Content) -> some View {
     content

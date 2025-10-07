@@ -119,12 +119,12 @@
 		B77D5CC72E92277800659987 = {
 			isa = PBXGroup;
 			children = (
+				B74102162E94740700F61023 /* Stickers */,
 				B74102422E94A58B00F61023 /* Preview Assets.xcassets */,
 				B74102402E94A56900F61023 /* Assets.xcassets */,
-				B741022C2E948EAF00F61023 /* Supporting Code */,
-				B74102162E94740700F61023 /* Stickers */,
-				B77D5D0D2E922DC200659987 /* Preview Content */,
 				B77D5D082E922D6100659987 /* Extensions */,
+				B741022C2E948EAF00F61023 /* Supporting Code */,
+				B77D5D0D2E922DC200659987 /* Preview Content */,
 				B77D5D052E922D1600659987 /* Config */,
 				B77D5CF82E922C2700659987 /* Model */,
 				B77D5CDF2E9227E400659987 /* Views  */,

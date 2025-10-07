@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-
+//add images to card
 struct CustomTransfer: Transferable {
   var image: UIImage?
   var text: String?
@@ -18,7 +18,7 @@ struct CustomTransfer: Transferable {
         ?? UIImage(named: "error-image")
       return CustomTransfer(image: image)
     }
-    DataRepresentation(importedContentType: .text) { data in
+    DataRepresentation(importedContentType: .text) { data in //addtext to card
       let text = String(decoding: data, as: UTF8.self)
       return CustomTransfer(text: text)
     }
