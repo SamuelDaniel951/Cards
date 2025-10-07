@@ -60,7 +60,7 @@ struct Card: Identifiable {
           elements[index] = newElement
       }
     }
-
+    //JSON to save cards
     func save() {
       do {
         let encoder = JSONEncoder()
