@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+//ading croping frames from built in and defined shapes
 enum Shapes {
   static let shapes: [AnyShape] = [
     AnyShape(Circle()), AnyShape(Rectangle()),
@@ -16,7 +16,9 @@ enum Shapes {
     AnyShape(Cone()), AnyShape(Cloud()),
     AnyShape(Diamond()),
     AnyShape(Polygon(sides: 6)),
-    AnyShape(Polygon(sides: 8))
+    AnyShape(Polygon(sides: 8)),
+    AnyShape(Triangle()),
+    
   ]
 }
 

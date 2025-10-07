@@ -10,45 +10,51 @@ import SwiftUI
 struct CardDetailView: View {
   @EnvironmentObject var store: CardStore
   @Binding var card: Card
-    
-  func isSelected(_ element: CardElement) -> Bool {
-      store.selectedElement?.id == element.id
-    }
+  var viewScale: CGFloat = 1
+  var proxy: GeometryProxy?
 
-    var body: some View {
-      ZStack {
-        card.backgroundColor
+  func isSelected(_ element: CardElement) -> Bool {
+    store.selectedElement?.id == element.id
+  }
+
+  var body: some View {
+    ZStack {
+      card.backgroundColor
+        .onTapGesture {
+          store.selectedElement = nil
+        }
+      ForEach($card.elements, id: \.id) { $element in
+        CardElementView(element: element)
+          .overlay(
+            element: element,
+            isSelected: isSelected(element))
+          .elementContextMenu(
+            card: $card,
+            element: $element)
+          .resizableView(
+            transform: $element.transform,
+            viewScale: viewScale)
+          .frame(
+            width: element.transform.size.width,
+            height: element.transform.size.height)
           .onTapGesture {
-            store.selectedElement = nil
+            store.selectedElement = element
           }
-        ForEach($card.elements, id: \.id) { $element in
-          CardElementView(element: element)
-            .overlay(
-              element: element,
-              isSelected: isSelected(element))
-            .elementContextMenu(
-              card: $card,
-              element: $element)
-            .resizableView(transform: $element.transform)
-            .frame(
-              width: element.transform.size.width,
-              height: element.transform.size.height)
-            .onTapGesture {
-              store.selectedElement = element
-            }
-        }
-      }
-      .onDisappear {
-        store.selectedElement = nil
-      }
-      .dropDestination(for: CustomTransfer.self) { items, location in
-        print(location)
-        Task {
-          card.addElements(from: items)
-        }
-        return !items.isEmpty
       }
     }
+    .onDisappear {
+      store.selectedElement = nil
+    }
+    .dropDestination(for: CustomTransfer.self) { items, location in
+      let offset = Settings.calculateDropOffset(
+        proxy: proxy,
+        location: location)
+      Task {
+        card.addElements(from: items, at: offset)
+      }
+      return !items.isEmpty
+    }
+  }
 }
 
 struct CardDetailView_Previews: PreviewProvider {

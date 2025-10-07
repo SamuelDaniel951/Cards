@@ -2,17 +2,35 @@
 //  AppLoadingView.swift
 //  Cards
 //
-//  Created by Madiha Ibrahim on 10/6/25.
+//  Created by owner on 10/6/25.
 //
 
 import SwiftUI
 
 struct AppLoadingView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+  @State private var showSplash = true
+
+  var body: some View {
+    if showSplash {
+      SplashScreen()
+        .ignoresSafeArea()
+        .onAppear {
+          DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            withAnimation {
+              showSplash = false
+            }
+          }
+        }
+    } else {
+      CardsListView()
+        .transition(.scale(scale: 0, anchor: .top))
     }
+  }
 }
 
-#Preview {
+struct AppLoadingView_Previews: PreviewProvider {
+  static var previews: some View {
     AppLoadingView()
+      .environmentObject(CardStore(defaultData: true))
+  }
 }

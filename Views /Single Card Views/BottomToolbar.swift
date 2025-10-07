@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ToolbarButton: View {
+  @Environment(\.verticalSizeClass) var verticalSizeClass
   let modal: ToolbarSelection
     //toolbar format
   private let modalButton: [
@@ -22,13 +23,32 @@ struct ToolbarButton: View {
   var body: some View {
     if let text = modalButton[modal]?.text,
       let imageName = modalButton[modal]?.imageName {
-      VStack {
-        Image(systemName: imageName)
-          .font(.largeTitle)
-        Text(text)
+      if verticalSizeClass == .compact {
+        compactView(imageName)
+      } else {
+        regularView(imageName, text)
       }
-      .padding(.top)
     }
+  }
+
+  func regularView(
+    _ imageName: String,
+    _ text: String
+  ) -> some View {
+    VStack(spacing: 2) {
+      Image(systemName: imageName)
+      Text(text)
+    }
+    .frame(minWidth: 60)
+    .padding(.top, 5)
+  }
+
+  func compactView(_ imageName: String) -> some View {
+    VStack(spacing: 2) {
+      Image(systemName: imageName)
+    }
+    .frame(minWidth: 60)
+    .padding(.top, 5)
   }
 }
 
@@ -39,7 +59,7 @@ struct BottomToolbar: View {
   @Binding var modal: ToolbarSelection?
 //toolbar buttons
   var body: some View {
-    HStack {
+    HStack(alignment: .bottom) {
       ForEach(ToolbarSelection.allCases) { selection in
         switch selection { //"" added to handle special toolbar button actions
         case .photoModal:
@@ -51,7 +71,7 @@ struct BottomToolbar: View {
           defaultButton(selection)
             .disabled(
               store.selectedElement == nil
-              || !(store.selectedElement is ImageElement)) //"" disables frame button if no image selected
+              || !(store.selectedElement is ImageElement)) 
         default:
           defaultButton(selection)
         }
@@ -59,7 +79,7 @@ struct BottomToolbar: View {
     }
   }
 
-  //"" helper for standard toolbar buttons
+  
   func defaultButton(_ selection: ToolbarSelection) -> some View {
     Button {
       modal = selection
@@ -72,9 +92,9 @@ struct BottomToolbar: View {
 struct BottomToolbar_Previews: PreviewProvider {
   static var previews: some View {
     BottomToolbar(
-      card: .constant(Card()), //"" added for preview
+      card: .constant(Card()),
       modal: .constant(.stickerModal))
     .padding()
-    .environmentObject(CardStore()) //"" added for preview environment
+    .environmentObject(CardStore())
   }
 }

@@ -8,33 +8,47 @@
 import SwiftUI
 
 struct CardToolbar: ViewModifier {
-  @EnvironmentObject var store: CardStore //"" added to access shared card data
+  @EnvironmentObject var store: CardStore
   @Environment(\.dismiss) var dismiss
   @Binding var currentModal: ToolbarSelection?
   @Binding var card: Card
   @State private var stickerImage: UIImage?
-  @State private var frameIndex: Int? //"" added for frame selection
+  @State private var frameIndex: Int?
+  @State private var textElement = TextElement()
 
   func body(content: Content) -> some View {
     content
       .toolbar {
         ToolbarItem(placement: .navigationBarTrailing) {
-          menu //"" added new toolbar menu for adding elements
+          menu
         }
         ToolbarItem(placement: .navigationBarTrailing) {
           Button("Done") {
             dismiss()
           }
         }
+        ToolbarItem(placement: .navigationBarLeading) {
+          let uiImage = UIImage.screenshot(
+            card: card,
+            size: Settings.cardSize)
+          let image = Image(uiImage: uiImage)
+          ShareLink(
+            item: image,
+            preview: SharePreview(
+              "Card",
+              image: image)) {
+                Image(systemName: "square.and.arrow.up")
+          }
+        }
         ToolbarItem(placement: .bottomBar) {
           BottomToolbar(
-            card: $card, //"" added to pass current card to toolbar
+            card: $card,
             modal: $currentModal)
         }
       }
       .sheet(item: $currentModal) { item in
         switch item {
-        case .frameModal: //"" new frame modal handling
+        case .frameModal:
           FrameModal(frameIndex: $frameIndex)
             .onDisappear {
               if let frameIndex {
@@ -52,13 +66,20 @@ struct CardToolbar: ViewModifier {
               }
               stickerImage = nil
             }
+        case .textModal:
+          TextModal(textElement: $textElement)
+            .onDisappear {
+              if !textElement.text.isEmpty {
+                card.addElement(text: textElement)
+              }
+              textElement = TextElement()
+            }
         default:
           Text(String(describing: item))
         }
       }
   }
 
-  //"" new menu for pasting images or text onto a card
   var menu: some View {
     Menu {
       Button {

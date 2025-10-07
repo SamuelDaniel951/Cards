@@ -9,9 +9,10 @@ import SwiftUI
 import PhotosUI
 
 struct PhotosModal: View {
-  @Binding var card: Card
-  @State private var selectedItems: [PhotosPickerItem] = []
+  @Binding var card: Card //add photo to card
+  @State private var selectedItems: [PhotosPickerItem] = [] //keepselected item
 
+    //allow to get pictures from photos
     var body: some View {
       PhotosPicker(
         selection: $selectedItems,
@@ -28,7 +29,7 @@ struct PhotosModal: View {
                 card.addElement(uiImage: uiImage)
               }
             } catch {
-              print("⚠️ Image transfer failed: \(error)")
+              fatalError("Image transfer failed: \(error)")
             }
           }
           selectedItems = []

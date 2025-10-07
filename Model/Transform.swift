@@ -16,3 +16,6 @@ struct Transform {
   var rotation: Angle = .zero
   var offset: CGSize = .zero
 }
+
+//make Transform codable for saving/loading
+extension Transform: Codable {}
